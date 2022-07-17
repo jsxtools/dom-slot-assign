@@ -1,0 +1,11 @@
+# generated builds
+dist/
+
+# generated dependencies
+node_modules/
+
+# generated logs
+*.log*
+
+# generated system files
+.DS_Store
