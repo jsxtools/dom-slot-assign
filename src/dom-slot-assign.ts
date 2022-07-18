@@ -5,10 +5,10 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 	let internalSlot = document.createElement('slot')
 
 	/** Space-like character used to create unique, public slot names. */
-	let slotChar = String.fromCharCode(0x200C)
+	let slotChar = '\u200C'
 
 	/** Space-like character used to create unique, private slot names. */
-	let slitChar = String.fromCharCode(0x2060)
+	let slitChar = '\u2060'
 
 	/** Map between publicly assigned nodes and private slots. */
 	let slitMap = new WeakMap<AssignableNode, AssignableSlit>()
@@ -36,12 +36,6 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 
 	/** Index of an Assignable Node within Iterable, Assignable Nodes. */
 	let tick: number
-
-	/** Node extracted from Iterable Nodes. */
-	let node: AssignableNode
-
-	/** Instance of a private slot element. */
-	let slit: AssignableSlit
 
 	/** Root of the given slot element. */
 	let root: DocumentOrShadowRoot
@@ -76,11 +70,8 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 		HTMLSlotElement.prototype,
 		{
 			assign(this: HTMLSlotElement, ...nodes: AssignableNode[]) {
-				/** Given slot element. */
-				slot = this
-
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(slot)!
+				slotData = slotDataMap.get(this)!
 
 				// if the slot has existing data
 				if (slotData) {
@@ -88,7 +79,13 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 					removals.append(...slotData.slits.splice(0))
 
 					// remove all attributes from previous nodes
-					while (node = slotData.nodes.pop()!) (<Element>node).removeAttribute && (<Element>node).removeAttribute('slot')
+					for (
+						/** Node extracted from Iterable Nodes. */
+						let node: Element;
+						node = <any>slotData.nodes.pop();
+					) {
+						node.removeAttribute && node.removeAttribute('slot')
+					}
 				}
 
 				// return if there are nodes to assign
@@ -121,8 +118,10 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 
 				// for each node being assigned and its given index
 				for (<any>tick in nodes) {
-					node = nodes[tick]
-					slit = slitMap.get(node)!
+					let node = nodes[tick]
+
+					/** Instance of a private slot element. */
+					let slit = slitMap.get(node)!
 
 					if (node instanceof Text) {
 						if (!slit) {
@@ -161,20 +160,14 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 				slot.append(...slotData.slits)
 			},
 			assignedNodes(this: HTMLSlotElement) {
-				/** Given slot element. */
-				slot = this
-
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(slot)!
+				slotData = slotDataMap.get(this)!
 
 				return slotData ? slotData.nodes.filter(node => node.isConnected) : []
 			},
 			assignedElements(this: HTMLSlotElement) {
-				/** Given slot element. */
-				slot = this
-
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(slot)!
+				slotData = slotDataMap.get(this)!
 
 				return slotData ? slotData.nodes.filter(node => node.isConnected && node.nodeType === 1) : []
 			},

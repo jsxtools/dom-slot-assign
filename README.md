@@ -25,7 +25,7 @@ import "dom-slot-assign"
 
 That’s it. Now use imperative slotting in your project.
 
-The polyfill adds about 1.45 kB to your project, or 729 B when gzipped.
+The polyfill adds about 1.4 kB to your project, or 717 B when gzipped.
 
 ### Example
 

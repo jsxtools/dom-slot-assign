@@ -3,11 +3,15 @@
 	"name": "dom-slot-assign",
 	"description": "Tokenize CSS according to the CSS Syntax",
 	"type": "module",
-	"main": "dist/dom-slot-assign.js",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"files": [
 		"dist"
 	],
+	"main": "dist/dom-slot-assign.js",
+	"types": "dist/dom-slot-assign.d.ts",
+	"unpkg": "dist/dom-slot-assign.min.js",
+	"jsdelivr": "dist/dom-slot-assign.min.js",
+	"sideEffects": true,
 	"license": "CC0-1.0",
 	"author": "Jonathan Neal <jonathantneal@hotmail.com>",
 	"bugs": "https://github.com/jsxtools/dom-slot-assign/issues",
@@ -30,10 +34,6 @@
 		"typescript": "4.7.4",
 		"vite": "3.0.0"
 	},
-	"sideEffects": true,
-	"types": "dist/dom-slot-assign.d.ts",
-	"unpkg": "dist/dom-slot-assign.min.js",
-	"jsdelivr": "dist/dom-slot-assign.min.js",
 	"eslintConfig": {
 		"$schema": "https://json.schemastore.org/eslintrc.json",
 		"root": true,
