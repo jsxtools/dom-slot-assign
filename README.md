@@ -22,7 +22,7 @@ If you're ok with [slightly reduced browser support](https://caniuse.com/mdn-jav
 you can include it conditionally, only when needed:
 
 ```js
-if (typeof HTMLSlotElement !== "undefined" && !HTMLSlotElement.prototype.assign) {
+if (!globalThis?.HTMLSlotElement?.prototype.assign) {
   await import("https://unpkg.com/dom-slot-assign@0.1");
 }
 ```
