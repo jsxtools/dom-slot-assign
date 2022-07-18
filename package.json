@@ -18,7 +18,8 @@
 	"homepage": "https://github.com/jsxtools/dom-slot-assign",
 	"repository": "https://github.com/jsxtools/dom-slot-assign.git",
 	"scripts": {
-		"build": "rollup --config rollup.config.js"
+		"build": "rollup --config rollup.config.js",
+		"watch": "rollup --config rollup.config.js --watch"
 	},
 	"devDependencies": {
 		"@rollup/plugin-typescript": "^8.3.3",
