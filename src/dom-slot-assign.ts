@@ -22,23 +22,11 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 	/** Map between public slot elements and private implementation details. */
 	let slotDataMap = new WeakMap<HTMLSlotElement, SlotData>()
 
-	/** Private implementation details for slot elements. */
-	let slotData: SlotData
-
 	/** Checking function used to validate potential shadow roots. */
 	let isShadowRoot = isPrototypeOf.bind(ShadowRoot.prototype)
 
-	/** Instance of a shadow root. */
-	let shadowRoot: ShadowRoot
-
-	/** Instance of a public slot element. */
-	let slot: HTMLSlotElement
-
 	/** Index of an Assignable Node within Iterable, Assignable Nodes. */
 	let tick: number
-
-	/** Root of the given slot element. */
-	let root: DocumentOrShadowRoot
 
 	/** Fragment used to transfer private slot elements. */
 	let removals = new DocumentFragment()
@@ -48,21 +36,21 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 	// polyfill attachShadow to handle any slot changes
 	Object.assign(Element.prototype, {
 		attachShadow(this: Element, init: ShadowRootInit) {
-			shadowRoot = attachShadow.call(this, init)
+			let root = attachShadow.call(this, init)
 
 			if (init && init.slotAssignment === 'manual') {
 				let data = { tick: 0 }
 
-				rootDataMap.set(shadowRoot, data)
+				rootDataMap.set(root, data)
 
-				shadowRoot.addEventListener('slotchange', ({ target }) => {
+				root.addEventListener('slotchange', ({ target }) => {
 					if ((<HTMLSlotElement>target).name === '') {
 						(<HTMLSlotElement>target).name = slotChar.repeat(++data.tick)
 					}
 				}, true)
 			}
 
-			return shadowRoot
+			return root
 		},
 	})
 
@@ -70,8 +58,13 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 		HTMLSlotElement.prototype,
 		{
 			assign(this: HTMLSlotElement, ...nodes: AssignableNode[]) {
+				let slot = this
+
+				/** Node extracted from Iterable Nodes. */
+				let node: Element
+
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(this)!
+				let slotData = slotDataMap.get(slot)!
 
 				// if the slot has existing data
 				if (slotData) {
@@ -79,11 +72,7 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 					removals.append(...slotData.slits.splice(0))
 
 					// remove all attributes from previous nodes
-					for (
-						/** Node extracted from Iterable Nodes. */
-						let node: Element;
-						node = <any>slotData.nodes.pop();
-					) {
+					while (node = <any>slotData.nodes.pop()) {
 						node.removeAttribute && node.removeAttribute('slot')
 					}
 				}
@@ -92,7 +81,7 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 				if (!nodes.length) return
 
 				/** Root of the given slot element. */
-				root = <DocumentOrShadowRoot><unknown>slot.getRootNode()
+				let root = slot.getRootNode()
 
 				// return if the slot does not belong to a ShadowRoot
 				if (!isShadowRoot(root)) return
@@ -161,13 +150,13 @@ if (typeof Element === 'function' && !HTMLSlotElement.prototype.assign) {
 			},
 			assignedNodes(this: HTMLSlotElement) {
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(this)!
+				let slotData = slotDataMap.get(this)!
 
 				return slotData ? slotData.nodes.filter(node => node.isConnected) : []
 			},
 			assignedElements(this: HTMLSlotElement) {
 				/** Internally assigned slots and cloned text. */
-				slotData = slotDataMap.get(this)!
+				let slotData = slotDataMap.get(this)!
 
 				return slotData ? slotData.nodes.filter(node => node.isConnected && node.nodeType === 1) : []
 			},
