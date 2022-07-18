@@ -18,6 +18,17 @@ import "https://unpkg.com/dom-slot-assign@0.1"
 <script src="https://unpkg.com/dom-slot-assign@0.1"></script>
 ```
 
+If you're ok with [slightly reduced browser support](https://caniuse.com/mdn-javascript_operators_await_top_level),
+you can include it conditionally, only when needed:
+
+```js
+if (typeof HTMLSlotElement !== "undefined" && !HTMLSlotElement.prototype.assign) {
+  await import("https://unpkg.com/dom-slot-assign@0.1");
+}
+```
+
+You can also use npm:
+
 ```js
 // npm install dom-slot-assign
 import "dom-slot-assign"
@@ -43,7 +54,7 @@ customElements.define('content-tabs', class extends HTMLElement {
 
     new MutationObserver(() => host.contentChangedCallback()).observe(host, { childList: true })
   }
-  
+
   contentChangedCallback() {
     let root = this.shadowRoot
     let [ style ] = root.childNodes
