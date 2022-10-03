@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "dom-slot-assign",
-	"description": "Tokenize CSS according to the CSS Syntax",
+	"description": "A polyfill for imperative slot assignment",
 	"type": "module",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"files": [
 		"dist"
 	],
@@ -22,18 +22,18 @@
 		"watch": "rollup --config rollup.config.js --watch"
 	},
 	"devDependencies": {
-		"@rollup/plugin-typescript": "^8.3.3",
-		"@typescript-eslint/eslint-plugin": "5.30.6",
-		"@typescript-eslint/parser": "5.30.6",
-		"eslint": "8.20.0",
+		"@rollup/plugin-typescript": "8.5.0",
+		"@typescript-eslint/eslint-plugin": "5.39.0",
+		"@typescript-eslint/parser": "5.39.0",
+		"eslint": "8.24.0",
 		"eslint-config-dev": "3.1.0",
-		"magic-string": "^0.26.2",
-		"rollup": "^2.77.0",
-		"rollup-plugin-bundle-size": "^1.0.3",
+		"magic-string": "0.26.5",
+		"rollup": "2.79.1",
+		"rollup-plugin-bundle-size": "1.0.3",
 		"rollup-plugin-terser": "7.0.2",
-		"terser": "5.14.2",
-		"typescript": "4.7.4",
-		"vite": "3.0.0"
+		"terser": "5.15.0",
+		"typescript": "4.8.4",
+		"vite": "3.1.4"
 	},
 	"eslintConfig": {
 		"$schema": "https://json.schemastore.org/eslintrc.json",
@@ -65,5 +65,33 @@
 				}
 			}
 		]
-	}
+	},
+	"keywords": [
+		"assign",
+		"assignable",
+		"assigned",
+		"assignment",
+		"attach",
+		"attachShadow",
+		"component",
+		"components",
+		"custom",
+		"document",
+		"dom",
+		"element",
+		"elements",
+		"imperative",
+		"javascript",
+		"js",
+		"manual",
+		"name",
+		"named",
+		"polyfill",
+		"shadow",
+		"slot",
+		"slotted",
+		"slots",
+		"slottable",
+		"web"
+	]
 }
